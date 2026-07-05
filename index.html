@@ -1,0 +1,1251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tax Saver Agent - Interactive Tax Optimization Workspace</title>
+  <meta name="description" content="Legally reduce your tax burden in the US, Canada, and UK using our interactive tax-saving wizard and playground.">
+  
+  <!-- Premium Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Custom Styling -->
+  <link rel="stylesheet" href="style.css">
+  
+  <!-- CDN Dependencies -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="light-theme">
+
+  <!-- Background Gradients -->
+  <div class="bg-glow bg-glow-primary" aria-hidden="true"></div>
+  <div class="bg-glow bg-glow-secondary" aria-hidden="true"></div>
+
+  <!-- Main Grid Layout Container -->
+  <div class="app-layout">
+    
+    <!-- LEFT SIDEBAR (Desktop) -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-logo">
+        <div class="logo-icon-bubble">
+          <i data-lucide="shield" class="logo-icon-svg" aria-hidden="true"></i>
+          <span class="logo-currency-symbol" id="sidebar-logo-currency">$</span>
+        </div>
+        <span class="logo-text font-outfit">Tax Saver <span class="accent-text">Agent</span></span>
+      </div>
+      
+      <nav class="sidebar-nav">
+        <button type="button" class="nav-item active" data-tab="dashboard">
+          <i data-lucide="layout-dashboard" aria-hidden="true"></i>
+          <span>Dashboard</span>
+        </button>
+        <button type="button" class="nav-item" data-tab="investments">
+          <i data-lucide="trending-up" aria-hidden="true"></i>
+          <span>Investments</span>
+        </button>
+        <button type="button" class="nav-item" data-tab="savings">
+          <i data-lucide="percent" aria-hidden="true"></i>
+          <span>Tax Savings</span>
+        </button>
+        <button type="button" class="nav-item" data-tab="documents">
+          <i data-lucide="files" aria-hidden="true"></i>
+          <span>Documents</span>
+        </button>
+        <button type="button" class="nav-item" data-tab="calculators">
+          <i data-lucide="calculator" aria-hidden="true"></i>
+          <span>Calculator Wizard</span>
+        </button>
+        <button type="button" class="nav-item" data-tab="support">
+          <i data-lucide="help-circle" aria-hidden="true"></i>
+          <span>Expert Support</span>
+        </button>
+        <button type="button" class="nav-item" data-tab="profile">
+          <i data-lucide="user" aria-hidden="true"></i>
+          <span>Profile</span>
+        </button>
+        <button type="button" class="nav-item" data-tab="settings">
+          <i data-lucide="settings" aria-hidden="true"></i>
+          <span>Settings</span>
+        </button>
+      </nav>
+      
+      <!-- Help Desk Card in Sidebar -->
+      <div class="sidebar-help-card">
+        <div class="help-card-avatar-group">
+          <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=128&auto=format&fit=crop" class="help-avatar" alt="Expert Zayed" />
+          <span class="active-badge-dot"></span>
+        </div>
+        <h4>Need Help?</h4>
+        <p>Talk to our tax expert for personalized guidance.</p>
+        <button type="button" class="btn btn-primary btn-sm" id="btn-sidebar-chat">Chat Now</button>
+      </div>
+    </aside>
+
+    <!-- MOBILE HEADER -->
+    <header class="mobile-header">
+      <button type="button" id="btn-mobile-menu-toggle" class="btn-icon" aria-label="Toggle navigation menu">
+        <i data-lucide="menu" aria-hidden="true"></i>
+      </button>
+      <div class="mobile-logo">
+        <i data-lucide="shield" class="mobile-logo-icon" aria-hidden="true"></i>
+        <span class="mobile-logo-text font-outfit">Tax Saver</span>
+      </div>
+      <div class="mobile-actions">
+        <button type="button" class="btn-icon mobile-notif-btn" aria-label="Notifications">
+          <i data-lucide="bell" aria-hidden="true"></i>
+          <span class="badge-dot"></span>
+        </button>
+      </div>
+    </header>
+
+    <!-- MAIN APP WRAPPER -->
+    <div class="app-main-wrapper">
+      
+      <!-- TOP HEADER (Desktop) -->
+      <header class="app-header-bar">
+        <div class="header-greeting-area">
+          <h1 class="header-greeting font-outfit" id="header-user-welcome">Welcome back, Guest 👋</h1>
+          <p class="header-subtitle" id="header-user-subtitle">Here's your tax saving overview</p>
+        </div>
+        
+        <div class="header-actions-area">
+          <button type="button" class="btn btn-secondary btn-header-upload" id="btn-header-upload-doc">
+            <i data-lucide="upload" aria-hidden="true"></i>
+            <span>Upload Document</span>
+          </button>
+          
+          <button type="button" class="btn-icon notif-btn" aria-label="Notifications">
+            <i data-lucide="bell" aria-hidden="true"></i>
+            <span class="badge-dot"></span>
+          </button>
+          
+          <div class="header-divider" aria-hidden="true"></div>
+          
+          <div class="user-profile-menu">
+            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=128&auto=format&fit=crop" class="header-avatar" alt="User Profile" />
+            <div class="user-info">
+              <span class="user-display-name" id="user-display-name-lbl">Guest User</span>
+              <span class="user-display-role" id="user-display-status-lbl">Tax Planner</span>
+            </div>
+            <i data-lucide="chevron-down" class="user-chevron" aria-hidden="true"></i>
+          </div>
+        </div>
+      </header>
+
+      <!-- MAIN SCROLLABLE CONTENT VIEWPORT -->
+      <main id="main-content" class="content-viewport" tabindex="-1">
+        
+        <!-- PANEL: Welcome Landing page -->
+        <section id="panel-welcome" class="tab-panel active-panel">
+          <div class="card welcome-card">
+            <div class="welcome-hero">
+              <div class="icon-bubble">
+                <i data-lucide="shield-check" class="hero-icon text-success" aria-hidden="true"></i>
+              </div>
+              <h2 id="welcome-title" class="font-outfit">Save Tax. Build Future.</h2>
+              <p class="subtitle text-muted">Smart tax planning today for a secure tomorrow. Analyze W-2, W-9, T4, or SIPP accounts across US, Canada, and UK standard policies.</p>
+            </div>
+            
+            <div class="landing-illustration-area">
+              <div class="landing-character-card">
+                <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=256&auto=format&fit=crop" class="character-img" alt="Financial advisor illustration" />
+                <div class="illustration-overlay-badge">
+                  <i data-lucide="trending-up" class="text-success" aria-hidden="true"></i>
+                  <span>Up to 100% Tax Deductible</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="features-grid">
+              <div class="feature-card">
+                <div class="feature-icon-wrapper text-success-bg">
+                  <i data-lucide="check-circle" class="feature-icon text-success" aria-hidden="true"></i>
+                </div>
+                <h3>100% Legal Avoidance</h3>
+                <p>We analyze official deductions, credits, and allowances. Never tax evasion, always fully compliant.</p>
+              </div>
+              <div class="feature-card">
+                <div class="feature-icon-wrapper text-primary-bg">
+                  <i data-lucide="sliders" class="feature-icon text-primary" aria-hidden="true"></i>
+                </div>
+                <h3>Interactive Playground</h3>
+                <p>Adjust your contributions dynamically to see immediate updates in your estimated tax liability.</p>
+              </div>
+              <div class="feature-card">
+                <div class="feature-icon-wrapper text-secondary-bg">
+                  <i data-lucide="file-text" class="feature-icon text-secondary" aria-hidden="true"></i>
+                </div>
+                <h3>Actionable Claims</h3>
+                <p>Get specific form codes (e.g. Schedule A, SA100) and links to claim your savings directly.</p>
+              </div>
+            </div>
+
+            <div class="disclaimer-alert" role="alert">
+              <i data-lucide="alert-circle" aria-hidden="true"></i>
+              <span><strong>Disclaimer:</strong> This tool provides estimates for planning purposes only and is not a substitute for professional tax advice.</span>
+            </div>
+
+            <div class="action-bar centered">
+              <button type="button" id="btn-start" class="btn btn-primary btn-large">
+                <span>Begin Personalized Analysis</span>
+                <i data-lucide="arrow-right" aria-hidden="true"></i>
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <!-- PANEL: Questionnaire Wizard -->
+        <section id="panel-calculators" class="tab-panel">
+          <div class="card wizard-card">
+            <!-- Progress Indicator -->
+            <div class="wizard-header">
+              <div class="progress-container">
+                <div class="progress-bar-label">
+                  <span id="step-label">Step 1 of 4: Location & Residency</span>
+                  <span id="step-percentage">25% Complete</span>
+                </div>
+                <div class="progress-track">
+                  <div id="progress-indicator" class="progress-fill" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" aria-label="Survey Progress"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Intake Form -->
+            <form id="tax-intake-form" novalidate>
+              
+              <!-- STEP 1: Location & Residency -->
+              <fieldset id="step-1" class="wizard-step" aria-labelledby="step-1-title">
+                <h3 id="step-1-title" class="step-title font-outfit" tabindex="-1">
+                  <i data-lucide="map-pin" class="step-icon text-success" aria-hidden="true"></i>
+                  Location & Residency
+                </h3>
+                
+                <div class="form-grid">
+                  <!-- Country Selection -->
+                  <div class="form-group">
+                    <label for="input-country">Country of Tax Residence <span class="required">*</span></label>
+                    <select id="input-country" name="country" required aria-required="true">
+                      <option value="" disabled selected>Select a country</option>
+                      <option value="us">United States</option>
+                      <option value="ca">Canada</option>
+                      <option value="uk">United Kingdom</option>
+                    </select>
+                    <span class="error-message" id="error-country" aria-live="polite"></span>
+                  </div>
+
+                  <!-- State / Province / Nation -->
+                  <div class="form-group" id="group-region">
+                    <label id="label-region" for="input-region">State / Province <span class="required">*</span></label>
+                    <select id="input-region" name="region" required aria-required="true">
+                      <option value="" disabled selected>Select country first</option>
+                    </select>
+                    <span class="error-message" id="error-region" aria-live="polite"></span>
+                    
+                    <!-- Quebec Notice Box -->
+                    <div id="quebec-notice" class="alert alert-warning hidden" role="alert">
+                      <i data-lucide="alert-triangle" aria-hidden="true"></i>
+                      <span>Quebec is not supported in v1 due to its separate provincial tax system. Please select another province.</span>
+                    </div>
+                    
+                    <!-- US State Approximation Notice -->
+                    <div id="state-approx-notice" class="alert alert-info hidden" role="alert">
+                      <i data-lucide="info" aria-hidden="true"></i>
+                      <span>States other than CA, NY, IL, TX, and FL will use a flat <strong>5.0% placeholder</strong> rate.</span>
+                    </div>
+                  </div>
+
+                  <!-- Tax Residency Status -->
+                  <div class="form-group">
+                    <label for="input-residency">Tax Residency Status <span class="required">*</span></label>
+                    <select id="input-residency" name="residency" required aria-required="true">
+                      <option value="resident" selected>Resident</option>
+                      <option value="non_resident">Non-Resident / Foreign National</option>
+                      <option value="dual_resident">Dual Resident / Part-Year Resident</option>
+                    </select>
+                  </div>
+
+                  <!-- Tax Year -->
+                  <div class="form-group">
+                    <label for="input-tax-year">Tax Year Planning For <span class="required">*</span></label>
+                    <select id="input-tax-year" name="tax_year" required aria-required="true">
+                      <option value="2026" selected>2026 (Current Year)</option>
+                      <option value="2025">2025 (Prior Year / File Now)</option>
+                    </select>
+                  </div>
+                </div>
+              </fieldset>
+
+              <!-- STEP 2: Filing Status & Dependents -->
+              <fieldset id="step-2" class="wizard-step hidden" aria-labelledby="step-2-title">
+                <h3 id="step-2-title" class="step-title font-outfit" tabindex="-1">
+                  <i data-lucide="users" class="step-icon text-success" aria-hidden="true"></i>
+                  Filing Status & Dependents
+                </h3>
+                
+                <div class="form-grid">
+                  <!-- Filing Status (Dynamic Options) -->
+                  <div class="form-group">
+                    <label for="input-filing-status">Filing Status <span class="required">*</span></label>
+                    <select id="input-filing-status" name="filing_status" required aria-required="true">
+                      <!-- Dynamically populated -->
+                    </select>
+                  </div>
+
+                  <!-- Dependents Counter -->
+                  <div class="form-group">
+                    <label>Number of Children (Eligible for Credits)</label>
+                    <div class="counter-input">
+                      <button type="button" class="btn btn-icon btn-counter-dec" aria-label="Decrease children count" data-target="input-children">
+                        <i data-lucide="minus" aria-hidden="true"></i>
+                      </button>
+                      <input type="number" id="input-children" name="children" min="0" max="15" value="0" readonly aria-label="Number of children" />
+                      <button type="button" class="btn btn-icon btn-counter-inc" aria-label="Increase children count" data-target="input-children">
+                        <i data-lucide="plus" aria-hidden="true"></i>
+                      </button>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label>Other Dependents (Elderly parents / Disabled relatives)</label>
+                    <div class="counter-input">
+                      <button type="button" class="btn btn-icon btn-counter-dec" aria-label="Decrease other dependents" data-target="input-other-dependents">
+                        <i data-lucide="minus" aria-hidden="true"></i>
+                      </button>
+                      <input type="number" id="input-other-dependents" name="other_dependents" min="0" max="10" value="0" readonly aria-label="Number of other dependents" />
+                      <button type="button" class="btn btn-icon btn-counter-inc" aria-label="Increase other dependents" data-target="input-other-dependents">
+                        <i data-lucide="plus" aria-hidden="true"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </fieldset>
+
+              <!-- STEP 3: Income & Career -->
+              <fieldset id="step-3" class="wizard-step hidden" aria-labelledby="step-3-title">
+                <h3 id="step-3-title" class="step-title font-outfit" tabindex="-1">
+                  <i data-lucide="briefcase" class="step-icon text-success" aria-hidden="true"></i>
+                  Income & Career
+                </h3>
+                
+                <div class="form-grid">
+                  <!-- Income Types -->
+                  <div class="form-group full-width">
+                    <label>Income Sources (Select all that apply) <span class="required">*</span></label>
+                    <div class="checkbox-cards-grid" role="group" aria-label="Income Sources">
+                      
+                      <label class="checkbox-card-label" for="income-salaried">
+                        <input type="checkbox" id="income-salaried" name="income_types" value="salaried" checked>
+                        <div class="checkbox-card-content">
+                          <i data-lucide="user-check" class="card-icon" aria-hidden="true"></i>
+                          <span>Salaried (W-2 / T4 / PAYE)</span>
+                        </div>
+                      </label>
+
+                      <label class="checkbox-card-label" for="income-self-employed">
+                        <input type="checkbox" id="income-self-employed" name="income_types" value="self_employed">
+                        <div class="checkbox-card-content">
+                          <i data-lucide="hard-hat" class="card-icon" aria-hidden="true"></i>
+                          <span>Self-Employed / Freelancer</span>
+                        </div>
+                      </label>
+
+                      <label class="checkbox-card-label" for="income-business">
+                        <input type="checkbox" id="income-business" name="income_types" value="business">
+                        <div class="checkbox-card-content">
+                          <i data-lucide="store" class="card-icon" aria-hidden="true"></i>
+                          <span>Business Owner</span>
+                        </div>
+                      </label>
+
+                      <label class="checkbox-card-label" for="income-investor">
+                        <input type="checkbox" id="income-investor" name="income_types" value="investor">
+                        <div class="checkbox-card-content">
+                          <i data-lucide="trending-up" class="card-icon" aria-hidden="true"></i>
+                          <span>Investor / Capital Gains</span>
+                        </div>
+                      </label>
+
+                      <label class="checkbox-card-label" for="income-retiree">
+                        <input type="checkbox" id="income-retiree" name="income_types" value="retiree">
+                        <div class="checkbox-card-content">
+                          <i data-lucide="award" class="card-icon" aria-hidden="true"></i>
+                          <span>Retiree / Pensioner</span>
+                        </div>
+                      </label>
+                    </div>
+                    <span class="error-message" id="error-income-types" aria-live="polite"></span>
+                  </div>
+
+                  <!-- Annual Income Input -->
+                  <div class="form-group full-width">
+                    <label for="input-income">Approximate Net Annual Income <span class="required">*</span></label>
+                    <div class="currency-input-wrapper">
+                      <span class="currency-prefix" id="income-currency-prefix">$</span>
+                      <input type="number" id="input-income" name="annual_income" placeholder="e.g. 75000" min="0" required aria-required="true" />
+                    </div>
+                    <span class="error-message" id="error-income" aria-live="polite"></span>
+                    
+                    <!-- High Income Warning -->
+                    <div id="high-income-warning" class="alert alert-warning hidden" role="alert">
+                      <i data-lucide="alert-octagon" aria-hidden="true"></i>
+                      <span>Warning: High income levels may exceed base tax models. Alternative Minimum Tax (AMT) is not modeled in v1.</span>
+                    </div>
+                  </div>
+                </div>
+              </fieldset>
+
+              <!-- STEP 4: Deductions & Expenses -->
+              <fieldset id="step-4" class="wizard-step hidden" aria-labelledby="step-4-title">
+                <h3 id="step-4-title" class="step-title font-outfit" tabindex="-1">
+                  <i data-lucide="badge-percent" class="step-icon text-success" aria-hidden="true"></i>
+                  Deductions & Expenses
+                </h3>
+                
+                <p class="step-instructions text-muted">Select fields to unlock specific deductions and input details to estimate potential savings.</p>
+                
+                <div class="deductions-list">
+                  
+                  <!-- DEDUCTION: Retirement -->
+                  <div class="deduction-item">
+                    <label class="deduction-toggle" for="toggle-retirement">
+                      <input type="checkbox" id="toggle-retirement" name="has_retirement" />
+                      <div class="deduction-header-info">
+                        <i data-lucide="piggy-bank" class="deduction-icon text-success" aria-hidden="true"></i>
+                        <div>
+                          <h4>Retirement Account Contributions</h4>
+                          <p class="text-muted">401(k), IRA, RRSP, or SIPP Pension plans.</p>
+                        </div>
+                      </div>
+                    </label>
+                    
+                    <div class="deduction-details hidden" id="detail-retirement">
+                      <div class="form-grid">
+                        <div class="form-group">
+                          <label for="input-retirement-contrib" id="label-retirement-contrib">Annual Contributions</label>
+                          <div class="currency-input-wrapper">
+                            <span class="currency-prefix">$</span>
+                            <input type="number" id="input-retirement-contrib" name="retirement_contrib" value="0" min="0" />
+                          </div>
+                          <span class="error-message" id="error-retirement" aria-live="polite"></span>
+                        </div>
+                        <div class="form-group age-group-wrapper hidden" id="us-age-group">
+                          <label for="input-age-50">Are you age 50 or older?</label>
+                          <select id="input-age-50" name="age_50">
+                            <option value="no" selected>No, under 50</option>
+                            <option value="yes">Yes, 50 or older (Unlocks Catch-Up)</option>
+                            <option value="yes_60">Yes, age 60-63 (US Super Catch-Up)</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- DEDUCTION: Mortgage / Homeowner -->
+                  <div class="deduction-item">
+                    <label class="deduction-toggle" for="toggle-mortgage">
+                      <input type="checkbox" id="toggle-mortgage" name="has_mortgage" />
+                      <div class="deduction-header-info">
+                        <i data-lucide="home" class="deduction-icon text-primary" aria-hidden="true"></i>
+                        <div>
+                          <h4>Mortgage & Homeownership</h4>
+                          <p class="text-muted">Deduct mortgage interest payments.</p>
+                        </div>
+                      </div>
+                    </label>
+                    
+                    <div class="deduction-details hidden" id="detail-mortgage">
+                      <div class="form-group">
+                        <label for="input-mortgage-interest">Annual Mortgage Interest Paid</label>
+                        <div class="currency-input-wrapper">
+                          <span class="currency-prefix">$</span>
+                          <input type="number" id="input-mortgage-interest" name="mortgage_interest" value="0" min="0" />
+                        </div>
+                        <span class="error-message" id="error-mortgage" aria-live="polite"></span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- DEDUCTION: Medical / HSA -->
+                  <div class="deduction-item">
+                    <label class="deduction-toggle" for="toggle-medical">
+                      <input type="checkbox" id="toggle-medical" name="has_medical" />
+                      <div class="deduction-header-info">
+                        <i data-lucide="heart-pulse" class="deduction-icon text-danger" aria-hidden="true"></i>
+                        <div>
+                          <h4>Medical Expenses & HSA</h4>
+                          <p class="text-muted">Out-of-pocket medical bills or HSA contributions.</p>
+                        </div>
+                      </div>
+                    </label>
+                    
+                    <div class="deduction-details hidden" id="detail-medical">
+                      <div class="form-grid">
+                        <div class="form-group">
+                          <label for="input-medical-expenses">Out-of-Pocket Medical Expenses</label>
+                          <div class="currency-input-wrapper">
+                            <span class="currency-prefix">$</span>
+                            <input type="number" id="input-medical-expenses" name="medical_expenses" value="0" min="0" />
+                          </div>
+                          <span class="error-message" id="error-medical-exp" aria-live="polite"></span>
+                        </div>
+                        <div class="form-group hsa-wrapper hidden" id="us-hsa-wrapper">
+                          <label for="input-hsa-contrib">Annual HSA Contribution</label>
+                          <div class="currency-input-wrapper">
+                            <span class="currency-prefix">$</span>
+                            <input type="number" id="input-hsa-contrib" name="hsa_contrib" value="0" min="0" />
+                          </div>
+                          <span class="error-message" id="error-hsa" aria-live="polite"></span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- DEDUCTION: Charitable Gifting -->
+                  <div class="deduction-item">
+                    <label class="deduction-toggle" for="toggle-charity">
+                      <input type="checkbox" id="toggle-charity" name="has_charity" />
+                      <div class="deduction-header-info">
+                        <i data-lucide="gift" class="deduction-icon text-info" aria-hidden="true"></i>
+                        <div>
+                          <h4>Charitable Donations</h4>
+                          <p class="text-muted">Cash or asset donations to registered charities.</p>
+                        </div>
+                      </div>
+                    </label>
+                    
+                    <div class="deduction-details hidden" id="detail-charity">
+                      <div class="form-group">
+                        <label for="input-charity">Total Annual Charitable Donations</label>
+                        <div class="currency-input-wrapper">
+                          <span class="currency-prefix">$</span>
+                          <input type="number" id="input-charity" name="charitable_donations" value="0" min="0" />
+                        </div>
+                        <span class="error-message" id="error-charity" aria-live="polite"></span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- DEDUCTION: Education expenses -->
+                  <div class="deduction-item">
+                    <label class="deduction-toggle" for="toggle-education">
+                      <input type="checkbox" id="toggle-education" name="has_education" />
+                      <div class="deduction-header-info">
+                        <i data-lucide="graduation-cap" class="deduction-icon text-warning" aria-hidden="true"></i>
+                        <div>
+                          <h4>Higher Education Costs</h4>
+                          <p class="text-muted">College tuition fees or student loan interest.</p>
+                        </div>
+                      </div>
+                    </label>
+                    
+                    <div class="deduction-details hidden" id="detail-education">
+                      <div class="form-group">
+                        <label for="input-education">Annual Tuition / Student Loan Interest Paid</label>
+                        <div class="currency-input-wrapper">
+                          <span class="currency-prefix">$</span>
+                          <input type="number" id="input-education" name="education_expenses" value="0" min="0" />
+                        </div>
+                        <span class="error-message" id="error-education" aria-live="polite"></span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </fieldset>
+
+              <!-- Navigation Controls -->
+              <div class="wizard-footer">
+                <button type="button" id="btn-back" class="btn btn-secondary hidden" aria-label="Go back to previous step">
+                  <i data-lucide="arrow-left" aria-hidden="true"></i>
+                  <span>Back</span>
+                </button>
+                <button type="button" id="btn-next" class="btn btn-primary" aria-label="Proceed to next step">
+                  <span>Next</span>
+                  <i data-lucide="arrow-right" aria-hidden="true"></i>
+                </button>
+                <button type="submit" id="btn-submit" class="btn btn-success hidden" aria-label="Submit questionnaire and calculate tax savings">
+                  <span>Calculate Savings</span>
+                  <i data-lucide="sparkles" aria-hidden="true"></i>
+                </button>
+              </div>
+            </form>
+          </div>
+        </section>
+
+        <!-- PANEL: Analyzing / Loading Screen -->
+        <section id="panel-loading" class="tab-panel text-center">
+          <div class="card loading-card">
+            <div class="loader-container">
+              <div class="spinner-ring" aria-hidden="true"></div>
+              <i data-lucide="cpu" class="loader-pulse-icon" aria-hidden="true"></i>
+            </div>
+            <h2 class="font-outfit text-glow">Optimizing Tax Savings...</h2>
+            <p class="text-muted">Analyzing national tax codes, standard deductions, and thresholds...</p>
+          </div>
+        </section>
+
+        <!-- PANEL: Dashboard Tab (The primary requested screen layout) -->
+        <section id="panel-dashboard" class="tab-panel">
+          <div class="dashboard-grid">
+            
+            <!-- Cards Row (Top Overview Cards) -->
+            <div class="overview-cards-row">
+              <!-- green card: Estimated Tax Savings -->
+              <div class="card overview-card-hero-green">
+                <div class="hero-green-content">
+                  <span class="hero-lbl">Estimated Tax Savings</span>
+                  <div class="hero-val font-outfit" id="text-total-savings">$0</div>
+                  <span class="hero-year-label" id="text-dashboard-fy">For FY 2026-27</span>
+                  <div class="hero-trend-indicator">
+                    <i data-lucide="trending-up" aria-hidden="true"></i>
+                    <span>↑ 18% vs standard baseline</span>
+                  </div>
+                </div>
+                <div class="hero-green-illustration">
+                  <i data-lucide="wallet" class="pot-icon-svg" aria-hidden="true"></i>
+                </div>
+              </div>
+              
+              <!-- white card: Total Investments -->
+              <div class="card overview-card-stat">
+                <div class="stat-content">
+                  <span class="stat-lbl">Total Investments</span>
+                  <div class="stat-val font-outfit" id="text-overview-investments">$0</div>
+                  <button type="button" class="stat-link" onclick="switchTab('investments')">View Details</button>
+                </div>
+                <div class="stat-icon-bubble text-success-bg">
+                  <i data-lucide="piggy-bank" class="text-success" aria-hidden="true"></i>
+                </div>
+              </div>
+
+              <!-- white card: Taxable Income -->
+              <div class="card overview-card-stat">
+                <div class="stat-content">
+                  <span class="stat-lbl">Taxable Income</span>
+                  <div class="stat-val font-outfit" id="text-overview-taxable">$0</div>
+                  <button type="button" class="stat-link" onclick="switchTab('savings')">View Details</button>
+                </div>
+                <div class="stat-icon-bubble text-purple-bg">
+                  <i data-lucide="building" class="text-purple" aria-hidden="true"></i>
+                </div>
+              </div>
+
+              <!-- white card: Deductions Claimed -->
+              <div class="card overview-card-stat">
+                <div class="stat-content">
+                  <span class="stat-lbl">Deductions Claimed</span>
+                  <div class="stat-val font-outfit" id="text-overview-deductions">$0</div>
+                  <button type="button" class="stat-link" onclick="switchTab('savings')">View Details</button>
+                </div>
+                <div class="stat-icon-bubble text-blue-bg">
+                  <i data-lucide="shield-check" class="text-blue" aria-hidden="true"></i>
+                </div>
+              </div>
+            </div>
+
+            <!-- Two-Column Main Layout -->
+            <div class="dashboard-main-cols">
+              
+              <!-- LEFT COLUMN -->
+              <div class="dashboard-left-col">
+                
+                <!-- Card: Tax Savings Progress -->
+                <div class="card dashboard-card">
+                  <h3 class="card-title font-outfit">Tax Savings Progress</h3>
+                  <p class="card-subtitle text-muted">You're on track! Keep investing to save more.</p>
+                  
+                  <div class="progress-gauge-layout">
+                    <div class="gauge-chart-container">
+                      <svg class="radial-gauge-svg" viewBox="0 0 100 100">
+                        <circle class="gauge-bg-circle" cx="50" cy="50" r="40"></circle>
+                        <circle class="gauge-fill-circle" id="gauge-progress-circle" cx="50" cy="50" r="40" stroke-dasharray="251.2" stroke-dashoffset="251.2"></circle>
+                      </svg>
+                      <div class="gauge-text-content">
+                        <span class="gauge-percentage font-outfit" id="gauge-percentage-lbl">0%</span>
+                        <span class="gauge-sub">achieved</span>
+                      </div>
+                    </div>
+                    
+                    <div class="gauge-details-list">
+                      <div class="gauge-detail-item">
+                        <span class="detail-dot bg-dot-grey"></span>
+                        <div class="detail-info">
+                          <span class="detail-lbl">Goal Cap</span>
+                          <strong id="gauge-goal-lbl">$0</strong>
+                        </div>
+                      </div>
+                      <div class="gauge-detail-item">
+                        <span class="detail-dot bg-dot-green"></span>
+                        <div class="detail-info">
+                          <span class="detail-lbl">Achieved</span>
+                          <strong class="text-success" id="gauge-achieved-lbl">$0</strong>
+                        </div>
+                      </div>
+                      <div class="gauge-detail-item">
+                        <span class="detail-dot bg-dot-orange"></span>
+                        <div class="detail-info">
+                          <span class="detail-lbl">Remaining Room</span>
+                          <strong class="text-orange" id="gauge-remaining-lbl">$0</strong>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <button type="button" class="btn btn-success btn-full-width" id="btn-increase-savings">
+                    <i data-lucide="plus-circle" aria-hidden="true"></i>
+                    <span>Increase Savings / Adjust Contribution</span>
+                  </button>
+                </div>
+
+                <!-- Interactive Playground Slider Integrated in Left Col -->
+                <div class="card dashboard-card">
+                  <h3 class="card-title font-outfit">
+                    <i data-lucide="sliders-horizontal" class="text-primary inline-icon" aria-hidden="true"></i>
+                    Interactive Playground
+                  </h3>
+                  <p class="card-subtitle text-muted">Adjust pre-tax contributions to update the dashboard instantly.</p>
+                  
+                  <div class="playground-sliders-wrapper">
+                    <div class="slider-group">
+                      <div class="slider-info">
+                        <label for="play-retirement" id="play-retirement-lbl">Retirement contribution</label>
+                        <span class="slider-display font-outfit" id="val-play-retirement">$0</span>
+                      </div>
+                      <input type="range" id="play-retirement" min="0" max="24500" value="0" step="100" />
+                      <span class="slider-max text-muted" id="play-retirement-max">Max: $24,500</span>
+                    </div>
+
+                    <div class="slider-group" id="group-play-hsa">
+                      <div class="slider-info">
+                        <label for="play-hsa" id="play-hsa-lbl">HSA Contribution</label>
+                        <span class="slider-display font-outfit" id="val-play-hsa">$0</span>
+                      </div>
+                      <input type="range" id="play-hsa" min="0" max="8550" value="0" step="50" />
+                      <span class="slider-max text-muted" id="play-hsa-max">Max: $4,300</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Card: Recent Investments Table -->
+                <div class="card dashboard-card no-padding overflow-hidden">
+                  <div class="card-header-padding">
+                    <h3 class="card-title font-outfit">Recent Investments</h3>
+                    <p class="card-subtitle text-muted">Deductions and options active for the current fiscal year.</p>
+                  </div>
+                  
+                  <div class="table-wrapper">
+                    <table class="dashboard-table" id="dashboard-investments-table">
+                      <thead>
+                        <tr>
+                          <th>Scheme / Deduction</th>
+                          <th>Amount</th>
+                          <th>Period</th>
+                          <th>Section Code</th>
+                          <th>Status</th>
+                        </tr>
+                      </thead>
+                      <tbody id="dashboard-investments-tbody">
+                        <!-- Dynamic rows populated from Javascript -->
+                      </tbody>
+                    </table>
+                  </div>
+                  
+                  <div class="card-footer-padding text-center">
+                    <button type="button" class="link-btn font-outfit" onclick="switchTab('investments')">
+                      <span>View All Investments</span>
+                      <i data-lucide="arrow-right" aria-hidden="true"></i>
+                    </button>
+                  </div>
+                </div>
+
+              </div>
+
+              <!-- RIGHT COLUMN -->
+              <div class="dashboard-right-col">
+                
+                <!-- Card: Top Investment Categories Donut Chart -->
+                <div class="card dashboard-card">
+                  <h3 class="card-title font-outfit">Top Investment Categories</h3>
+                  <p class="card-subtitle text-muted">Breakdown of standard deductions and pre-tax allowances.</p>
+                  
+                  <div class="chart-canvas-wrapper">
+                    <canvas id="savings-chart" aria-label="Interactive chart comparing input vs optimized deductions" role="img"></canvas>
+                  </div>
+                </div>
+
+                <!-- Card: Quick Actions -->
+                <div class="card dashboard-card">
+                  <h3 class="card-title font-outfit">Quick Actions</h3>
+                  <div class="quick-actions-grid">
+                    <button type="button" class="quick-action-card" id="qa-invest-now">
+                      <div class="qa-icon text-success-bg"><i data-lucide="trending-up" class="text-success" aria-hidden="true"></i></div>
+                      <span class="qa-title">Invest Now</span>
+                      <span class="qa-desc text-muted">Explore & Invest</span>
+                    </button>
+                    <button type="button" class="quick-action-card" id="qa-calculate-tax">
+                      <div class="qa-icon text-primary-bg"><i data-lucide="calculator" class="text-primary" aria-hidden="true"></i></div>
+                      <span class="qa-title">Calculate Tax</span>
+                      <span class="qa-desc text-muted">Estimate savings</span>
+                    </button>
+                    <button type="button" class="quick-action-card" id="qa-save-docs">
+                      <div class="qa-icon text-blue-bg"><i data-lucide="files" class="text-blue" aria-hidden="true"></i></div>
+                      <span class="qa-title">Save Documents</span>
+                      <span class="qa-desc text-muted">Upload & Store</span>
+                    </button>
+                    <button type="button" class="quick-action-card" id="qa-file-itr">
+                      <div class="qa-icon text-warning-bg"><i data-lucide="file-check" class="text-warning" aria-hidden="true"></i></div>
+                      <span class="qa-title">File Tax</span>
+                      <span class="qa-desc text-muted">E-File ITR Now</span>
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Card: Maximize Your Tax Savings Expert Banner (Indigo card) -->
+                <div class="card expert-banner-card bg-indigo-gradient text-white">
+                  <div class="expert-banner-content">
+                    <h3 class="font-outfit">Maximize Your Tax Savings</h3>
+                    <p>Our expert tax advisors can help you save up to the absolute legal maximums based on state & federal brackets.</p>
+                    <button type="button" class="btn btn-secondary text-indigo" id="btn-expert-call">Get Expert Call</button>
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+
+            <!-- Effective Rate and Savings Metrics Area -->
+            <div class="results-hero">
+              <div class="hero-metrics">
+                <div class="metric-box">
+                  <span class="metric-lbl">Effective Tax Rate (Current)</span>
+                  <span class="metric-val font-outfit" id="rate-current-tax">0.0%</span>
+                </div>
+                <div class="metric-box border-accent">
+                  <span class="metric-lbl">New Effective Rate (Optimized)</span>
+                  <span class="metric-val font-outfit text-success" id="rate-optimized-tax">0.0%</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Deadlines & checklists -->
+            <div class="watchout-section">
+              <h3 class="font-outfit section-heading">
+                <i data-lucide="alert-triangle" class="text-danger section-icon" aria-hidden="true"></i>
+                Deadlines & Compliance Checklists
+              </h3>
+              <div class="grid grid-3" id="grid-watchouts">
+                <!-- Dynamic generation -->
+              </div>
+            </div>
+            
+            <!-- Action buttons -->
+            <div class="action-bar results-actions">
+              <button type="button" id="btn-restart" class="btn btn-secondary">
+                <i data-lucide="rotate-ccw" aria-hidden="true"></i>
+                <span>Restart / New Profile</span>
+              </button>
+              
+              <button type="button" id="btn-print" class="btn btn-primary">
+                <i data-lucide="printer" aria-hidden="true"></i>
+                <span>Export Printable Report</span>
+              </button>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- PANEL: Investments recommendations (Screen 3) -->
+        <section id="panel-investments" class="tab-panel">
+          <div class="card investments-page-card">
+            <div class="investments-header">
+              <div class="badge badge-success font-outfit">Tax Saver Selections</div>
+              <h2 class="font-outfit">Investments Recommendations</h2>
+              <p class="subtitle text-muted">Maximize tax savings by choosing standard lock-in investment vehicles approved by tax authorities.</p>
+            </div>
+
+            <!-- Recommended card -->
+            <div class="investments-rec-callout bg-light-green border-green">
+              <div class="rec-icon-wrapper"><i data-lucide="sparkles" class="text-success" aria-hidden="true"></i></div>
+              <div class="rec-content">
+                <h4>Recommended For You</h4>
+                <p class="text-muted">These specific asset plans can help you save more taxes according to your selected limits.</p>
+              </div>
+              <button type="button" class="btn btn-icon text-success" aria-label="Explore recommendation" id="btn-explore-rec">
+                <i data-lucide="arrow-right" aria-hidden="true"></i>
+              </button>
+            </div>
+
+            <!-- Investments List -->
+            <div class="investments-list-cards">
+              
+              <!-- Item 1: ELSS Mutual Funds -->
+              <div class="invest-item-card">
+                <div class="invest-item-left">
+                  <div class="invest-icon-bubble bg-green-accent"><i data-lucide="trending-up" class="text-success" aria-hidden="true"></i></div>
+                  <div class="invest-desc">
+                    <h3 class="font-outfit">ELSS Mutual Funds</h3>
+                    <p class="text-muted">Tax-saving equity funds. Lock-in: 3 Years.</p>
+                  </div>
+                </div>
+                <div class="invest-item-right">
+                  <div class="invest-limits">
+                    <span class="lbl-small text-muted">Potential Savings</span>
+                    <strong class="text-success font-outfit" id="elss-savings-val">$46,800</strong>
+                  </div>
+                  <button type="button" class="btn btn-primary btn-sm invest-trigger-btn">Invest Now</button>
+                </div>
+              </div>
+
+              <!-- Item 2: Public Provident Fund (PPF) -->
+              <div class="invest-item-card">
+                <div class="invest-item-left">
+                  <div class="invest-icon-bubble bg-purple-accent"><i data-lucide="landmark" class="text-purple" aria-hidden="true"></i></div>
+                  <div class="invest-desc">
+                    <h3 class="font-outfit">Public Provident Fund (PPF)</h3>
+                    <p class="text-muted">Government savings scheme. Lock-in: 15 Years.</p>
+                  </div>
+                </div>
+                <div class="invest-item-right">
+                  <div class="invest-limits">
+                    <span class="lbl-small text-muted">Potential Savings</span>
+                    <strong class="text-success font-outfit" id="ppf-savings-val">$150,000</strong>
+                  </div>
+                  <button type="button" class="btn btn-primary btn-sm invest-trigger-btn">Invest Now</button>
+                </div>
+              </div>
+
+              <!-- Item 3: National Pension System (NPS) -->
+              <div class="invest-item-card">
+                <div class="invest-item-left">
+                  <div class="invest-icon-bubble bg-blue-accent"><i data-lucide="activity" class="text-blue" aria-hidden="true"></i></div>
+                  <div class="invest-desc">
+                    <h3 class="font-outfit">National Pension System (NPS)</h3>
+                    <p class="text-muted">Government pension contributions. Save extra tax.</p>
+                  </div>
+                </div>
+                <div class="invest-item-right">
+                  <div class="invest-limits">
+                    <span class="lbl-small text-muted">Potential Savings</span>
+                    <strong class="text-success font-outfit" id="nps-savings-val">$50,000</strong>
+                  </div>
+                  <button type="button" class="btn btn-primary btn-sm invest-trigger-btn">Invest Now</button>
+                </div>
+              </div>
+
+              <!-- Item 4: Life Insurance (LIC) -->
+              <div class="invest-item-card">
+                <div class="invest-item-left">
+                  <div class="invest-icon-bubble bg-orange-accent"><i data-lucide="shield-check" class="text-orange" aria-hidden="true"></i></div>
+                  <div class="invest-desc">
+                    <h3 class="font-outfit">Life Insurance (LIC)</h3>
+                    <p class="text-muted">Premium payments deduction. Financial protection.</p>
+                  </div>
+                </div>
+                <div class="invest-item-right">
+                  <div class="invest-limits">
+                    <span class="lbl-small text-muted">Potential Savings</span>
+                    <strong class="text-success font-outfit" id="lic-savings-val">$46,800</strong>
+                  </div>
+                  <button type="button" class="btn btn-primary btn-sm invest-trigger-btn">Invest Now</button>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </section>
+
+        <!-- PANEL: Tax Savings Breakdown Cards -->
+        <section id="panel-savings" class="tab-panel">
+          <div class="card savings-breakdown-card">
+            <h2 class="font-outfit section-heading">
+              <i data-lucide="list-collapse" class="text-secondary section-icon" aria-hidden="true"></i>
+              Detailed Opportunities Breakdown
+            </h2>
+            <p class="text-muted" style="margin-bottom: 2rem;">A granular review of deductions and credits available according to your region and selected tax codes.</p>
+            <div class="breakdown-list" id="list-detailed-deductions">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+        </section>
+
+        <!-- PANEL: Documents Upload -->
+        <section id="panel-documents" class="tab-panel">
+          <div class="card documents-card">
+            <h2 class="font-outfit">Document Vault</h2>
+            <p class="text-muted" style="margin-bottom: 2rem;">Upload and manage tax statements to verify your eligible credits and deductions.</p>
+            
+            <div class="drag-drop-zone" id="drag-drop-zone">
+              <i data-lucide="cloud-upload" class="upload-icon text-muted" aria-hidden="true"></i>
+              <h3>Drag & drop your files here</h3>
+              <p class="text-muted">or click to browse from files (PDF, PNG, JPG up to 10MB)</p>
+              <input type="file" id="file-uploader-input" class="hidden" multiple />
+            </div>
+
+            <div class="doc-checklist-area">
+              <h3 class="font-outfit">Slips Checklist based on Profile</h3>
+              <div class="checklist-items-box" id="docs-checklist-box">
+                <!-- Populated dynamically based on selected country -->
+              </div>
+            </div>
+
+            <div class="uploaded-files-section">
+              <h3 class="font-outfit">Uploaded Files</h3>
+              <div class="uploaded-files-list" id="uploaded-files-container">
+                <!-- Prepopulated items -->
+                <div class="uploaded-file-row">
+                  <div class="file-info-left">
+                    <i data-lucide="file-text" class="text-primary" aria-hidden="true"></i>
+                    <div class="file-name-meta">
+                      <span class="file-name-txt">w2_statement_2026.pdf</span>
+                      <span class="file-size-txt text-muted">145 KB • Uploaded Jul 4, 2026</span>
+                    </div>
+                  </div>
+                  <button type="button" class="btn-icon text-danger file-delete-btn" aria-label="Delete document"><i data-lucide="trash-2" aria-hidden="true"></i></button>
+                </div>
+                <div class="uploaded-file-row">
+                  <div class="file-info-left">
+                    <i data-lucide="file-image" class="text-primary" aria-hidden="true"></i>
+                    <div class="file-name-meta">
+                      <span class="file-name-txt">charity_donation_receipt.jpg</span>
+                      <span class="file-size-txt text-muted">2.4 MB • Uploaded Jul 4, 2026</span>
+                    </div>
+                  </div>
+                  <button type="button" class="btn-icon text-danger file-delete-btn" aria-label="Delete document"><i data-lucide="trash-2" aria-hidden="true"></i></button>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- PANEL: Live Expert Support Chat Mockup -->
+        <section id="panel-support" class="tab-panel">
+          <div class="card chat-card-container no-padding">
+            <div class="chat-workspace">
+              <!-- Left Sidebar: Expert Profiles -->
+              <div class="chat-sidebar">
+                <div class="chat-sidebar-search">
+                  <div class="search-input-wrapper">
+                    <i data-lucide="search" aria-hidden="true"></i>
+                    <input type="text" placeholder="Search consultants..." readonly />
+                  </div>
+                </div>
+                
+                <div class="expert-profiles-list">
+                  <div class="expert-chat-row active">
+                    <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=128&auto=format&fit=crop" class="chat-row-avatar" alt="CA Zayed" />
+                    <div class="chat-row-info">
+                      <div class="chat-row-header">
+                        <strong class="expert-name">Zayed Ansari</strong>
+                        <span class="chat-time">Just now</span>
+                      </div>
+                      <p class="chat-last-msg">Triple-tax benefits from HSA...</p>
+                    </div>
+                  </div>
+                  <div class="expert-chat-row">
+                    <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=128&auto=format&fit=crop" class="chat-row-avatar" alt="Sarah Consultant" />
+                    <div class="chat-row-info">
+                      <div class="chat-row-header">
+                        <strong class="expert-name">Sarah Jenkins (UK)</strong>
+                        <span class="chat-time">Yesterday</span>
+                      </div>
+                      <p class="chat-last-msg">Marriage allowance saves...</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Right Panel: Message Board -->
+              <div class="chat-main-board">
+                <!-- Chat Window Header -->
+                <div class="chat-header">
+                  <div class="chat-header-left">
+                    <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=128&auto=format&fit=crop" class="chat-header-avatar" alt="CA Zayed" />
+                    <div class="chat-header-text">
+                      <strong class="chat-header-name">Zayed Ansari</strong>
+                      <span class="chat-header-status"><span class="status-indicator-dot"></span> Online (Tax Consultant)</span>
+                    </div>
+                  </div>
+                  <div class="chat-header-actions">
+                    <button type="button" class="btn btn-secondary btn-sm" id="btn-request-call-chat">
+                      <i data-lucide="phone" aria-hidden="true"></i>
+                      <span>Request Call</span>
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Message List -->
+                <div class="chat-messages-area" id="chat-messages-area-box">
+                  <!-- Msg 1 -->
+                  <div class="message msg-received">
+                    <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=128&auto=format&fit=crop" class="msg-avatar" alt="CA Zayed" />
+                    <div class="msg-bubble-content">
+                      <p>Hi Zayed, I'm Zayed Ansari, your dedicated tax assistant. I see you want to plan your tax optimization strategy. Based on your inputs, you can save substantially by utilizing pre-tax allowances. How can I help you customize your plans today?</p>
+                      <span class="msg-time">11:42 AM</span>
+                    </div>
+                  </div>
+                  
+                  <!-- Msg 2 -->
+                  <div class="message msg-sent">
+                    <div class="msg-bubble-content">
+                      <p>Thanks! Should I prioritize retirement contributions or HSA first?</p>
+                      <span class="msg-time">11:44 AM</span>
+                    </div>
+                  </div>
+
+                  <!-- Msg 3 -->
+                  <div class="message msg-received">
+                    <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=128&auto=format&fit=crop" class="msg-avatar" alt="CA Zayed" />
+                    <div class="msg-bubble-content">
+                      <p>HSA is triple-tax advantaged (tax-free contributions, growth, and withdrawals for medical expenses). I generally recommend maximizing your HSA up to the single limit first, then allocating additional savings to W-2 401(k) retirement accounts. Let me know if you would like me to map the exact allocations.</p>
+                      <span class="msg-time">11:45 AM</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Input Footer -->
+                <div class="chat-input-footer">
+                  <button type="button" class="btn-icon" aria-label="Attach file"><i data-lucide="paperclip" aria-hidden="true"></i></button>
+                  <input type="text" id="chat-message-input-text" placeholder="Type your message here..." />
+                  <button type="button" class="btn btn-primary btn-icon-only" id="btn-chat-send-msg" aria-label="Send message"><i data-lucide="send" aria-hidden="true"></i></button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- PANEL: User Profile details -->
+        <section id="panel-profile" class="tab-panel">
+          <div class="card profile-panel-card">
+            <h2 class="font-outfit">User Profile Details</h2>
+            <p class="text-muted" style="margin-bottom: 2rem;">Manage your credentials and core personal thresholds.</p>
+            
+            <div class="profile-layout-grid">
+              <div class="profile-avatar-column">
+                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=128&auto=format&fit=crop" class="profile-large-avatar" alt="User Profile Image" />
+                <button type="button" class="btn btn-secondary btn-sm" style="margin-top: 1rem;">Change Photo</button>
+              </div>
+              
+              <div class="profile-fields-column">
+                <div class="form-grid">
+                  <div class="form-group">
+                    <label for="prof-name">Full Name</label>
+                    <input type="text" id="prof-name" value="Zayed Ansari" />
+                  </div>
+                  <div class="form-group">
+                    <label for="prof-email">Email Address</label>
+                    <input type="email" id="prof-email" value="zayed.ansari@example.com" />
+                  </div>
+                  <div class="form-group">
+                    <label for="prof-phone">Phone Number</label>
+                    <input type="text" id="prof-phone" value="+1 (555) 345-6789" />
+                  </div>
+                  <div class="form-group">
+                    <label for="prof-job">Occupation</label>
+                    <input type="text" id="prof-job" value="Senior Software Engineer" />
+                  </div>
+                </div>
+                <button type="button" class="btn btn-primary" style="margin-top: 1.5rem;" id="btn-save-profile-changes">Save Profile Changes</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- PANEL: Settings -->
+        <section id="panel-settings" class="tab-panel">
+          <div class="card settings-panel-card">
+            <h2 class="font-outfit">Workspace Settings</h2>
+            <p class="text-muted" style="margin-bottom: 2rem;">Adjust dashboard themes, currency symbols, and notification metrics.</p>
+            
+            <div class="settings-options-list">
+              <div class="settings-option-row">
+                <div class="setting-desc">
+                  <strong>Color Theme Selection</strong>
+                  <p class="text-muted">Toggle between the Clean Light Theme and Sleek Dark Mode.</p>
+                </div>
+                <div class="theme-toggle-switch">
+                  <button type="button" class="btn btn-secondary btn-sm" id="btn-theme-light">Light Mode</button>
+                  <button type="button" class="btn btn-secondary btn-sm" id="btn-theme-dark">Dark Mode</button>
+                </div>
+              </div>
+
+              <div class="settings-option-row">
+                <div class="setting-desc">
+                  <strong>Standard Currency Override</strong>
+                  <p class="text-muted">Manually override the currency symbol from country selectors.</p>
+                </div>
+                <select id="setting-currency-override" style="width: auto; min-width: 120px;">
+                  <option value="auto" selected>Auto Select</option>
+                  <option value="usd">USD ($)</option>
+                  <option value="cad">CAD (C$)</option>
+                  <option value="gbp">GBP (£)</option>
+                  <option value="inr">INR (₹)</option>
+                </select>
+              </div>
+
+              <div class="settings-option-row">
+                <div class="setting-desc">
+                  <strong>Email Reports</strong>
+                  <p class="text-muted">Send automated copies of printable calculations upon completing wizards.</p>
+                </div>
+                <label class="switch-container" for="switch-email-notifs">
+                  <input type="checkbox" id="switch-email-notifs" checked />
+                  <span class="slider-toggle"></span>
+                </label>
+              </div>
+            </div>
+            
+            <button type="button" class="btn btn-primary" style="margin-top: 1.5rem;" id="btn-save-settings-changes">Save Configurations</button>
+          </div>
+        </section>
+
+      </main>
+
+      <!-- Professional Disclaimer Footer -->
+      <footer class="app-footer">
+        <p class="disclaimer-text text-muted">
+          <strong>Legal Disclaimer:</strong> The calculations, recommendations, and figures provided by this application are estimates for educational and planning purposes only. They do not constitute formal tax, legal, or financial advice. Always verify rules and calculations with a certified professional accountant (CPA/EA/ACCA) or the local tax authority (IRS, CRA, HMRC) before executing any transactions or filing.
+        </p>
+        <div class="footer-links">
+          <a href="https://www.irs.gov" target="_blank" rel="noopener noreferrer">IRS.gov (US)</a>
+          <span class="sep" aria-hidden="true">|</span>
+          <a href="https://www.canada.ca/en/revenue-agency.html" target="_blank" rel="noopener noreferrer">CRA (Canada)</a>
+          <span class="sep" aria-hidden="true">|</span>
+          <a href="https://www.gov.uk/government/organisations/hm-revenue-customs" target="_blank" rel="noopener noreferrer">HMRC (UK)</a>
+        </div>
+      </footer>
+
+    </div>
+
+    <!-- BOTTOM NAV BAR (Mobile app layout) -->
+    <nav class="bottom-nav">
+      <button type="button" class="bottom-nav-item active" data-tab="dashboard">
+        <i data-lucide="layout-dashboard" aria-hidden="true"></i>
+        <span>Home</span>
+      </button>
+      <button type="button" class="bottom-nav-item" data-tab="investments">
+        <i data-lucide="trending-up" aria-hidden="true"></i>
+        <span>Investments</span>
+      </button>
+      <button type="button" class="bottom-nav-item" data-tab="savings">
+        <i data-lucide="percent" aria-hidden="true"></i>
+        <span>Savings</span>
+      </button>
+      <button type="button" class="bottom-nav-item" data-tab="documents">
+        <i data-lucide="files" aria-hidden="true"></i>
+        <span>Docs</span>
+      </button>
+      <button type="button" class="bottom-nav-item" data-tab="support">
+        <i data-lucide="help-circle" aria-hidden="true"></i>
+        <span>Support</span>
+      </button>
+    </nav>
+
+  </div>
+
+  <!-- Custom Behavior Script -->
+  <script src="app.js"></script>
+</body>
+</html>
